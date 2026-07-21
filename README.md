@@ -25,7 +25,7 @@ This test is designed to test your Playwright capabilities using TypeScript. The
 ## Submission Details
 1. To keep your work private from other applicants, pull this repo and create a [mirror](https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository) in your personal GitHub account
 2. Add your changes to the Playwright tests, and bugs reported in your Github issues
-3. When you are ready to share, invite nate8282, sowardskimberly, matthewstclaire, shalyn-coker, michael-nishiguchi, sstodd7532, and gena-pdq to your repo. Send an email to Jenna letting her know you are ready to have your work reviewed
+3. When you are ready to share, invite nate8282, sowardskimberly, lukban90, shalyn-coker, michael-nishiguchi, sstodd7532, ericevvans, and gena-pdq to your repo. Send an email to Jenna letting her know you are ready to have your work reviewed
 
 ## Set up TODO MVC
 
