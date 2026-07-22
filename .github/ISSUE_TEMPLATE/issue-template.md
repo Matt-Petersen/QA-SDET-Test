@@ -9,6 +9,6 @@ assignees: ''
 
 ## Description
 
-## Expected Behavior
+## Replication Steps
 
 ## Images
