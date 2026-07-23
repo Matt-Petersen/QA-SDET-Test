@@ -1,5 +1,6 @@
 import { type Locator, type Page } from '@playwright/test';
 import { ToDoItem } from '../components/ToDoItem'
+import { APP_URL } from '../constants'
 
 /**
  * Handles navigation and interactions for the PDQ Todo app.
@@ -29,7 +30,7 @@ export class ToDoPage {
      * Navigates to the todo app.
      */
     async goTo(): Promise<void> {
-        await this.page.goto('http://127.0.0.1:7002')
+        await this.page.goto(APP_URL)
     }
 
     /**
@@ -93,10 +94,50 @@ export class ToDoPage {
     }
 
     /**
+     * Hovers over the todo item at the given index.
+     * @param index - Zero-based index of the item to hover
+     */
+    async hoverItem(index: number): Promise<void> {
+        await this.getItem(index).hover();
+    }
+
+    /**
+     * Returns true if the delete button is visible for the item at the given index.
+     * @param index - Zero-based index of the item to check
+     */
+    async isDeleteButtonVisible(index: number): Promise<boolean> {
+        return this.getItem(index).isDeleteButtonVisible();
+    }
+
+    /**
+     * Deletes the todo item at the given index.
+     * @param index - Zero-based index of the item to delete
+     */
+    async deleteItem(index: number): Promise<void> {
+        await this.getItem(index).clickDelete();
+    }
+
+    /**
      * Returns a ToDoItem scoped to the given index.
      * @param index - Zero-based index of the item
      */
     private getItem(index: number): ToDoItem {
         return new ToDoItem(this.locTodoItems.nth(index));
+    }
+
+    /**
+     * Returns true if every todo item matches the expected completed state.
+     * @param completed - The completed state to check for
+     */
+    async areAllItemsCompleted(completed: boolean): Promise<boolean> {
+        const count = await this.locTodoItems.count();
+
+        for (let index = 0; index < count; index++) {
+            if ((await this.isItemCompleted(index)) !== completed) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
