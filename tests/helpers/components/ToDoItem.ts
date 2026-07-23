@@ -21,6 +21,16 @@ export class ToDoItem {
         await this.locButtonDelete.click()
     }
 
+    /** Hovers over this item's root element. */
+    async hover(): Promise<void> {
+        await this.root.hover()
+    }
+
+    /** Returns true if this item's delete button is currently visible. */
+    async isDeleteButtonVisible(): Promise<boolean> {
+        return this.locButtonDelete.isVisible()
+    }
+
     /** Toggles the completion checkbox for this item. */
     async toggleCheckItem(): Promise<void> {
         await this.locCheckItem.click()

@@ -40,15 +40,20 @@ pwsh -Command ". ./Invoke-TodoTests.ps1; Invoke-TodoTests"
 2. Item counter always shows "item" regardless of count (singular/plural bug)
 3. Footer disappears when all todos are deleted
 4. Pressing lowercase `p` in the input submits the todo prematurely
+5. Submitting an empty or whitespace-only todo creates a blank list item (no input validation)
 
 ## Project Structure
 
 ```
 tests/
-  todo.spec.ts              # All test cases
+  todo.spec.ts              # Filter and todo action test cases
+  performance.spec.ts       # Performance budget test cases
+  visual.spec.ts            # Visual regression (Chromium + local only, skipped in CI)
+  visual.spec.ts-snapshots/ # Baseline screenshots for visual regression
   helpers/
     index.ts                # Barrel export for all helpers
     fixtures.ts             # Playwright fixture extending base test with todoPage
+    constants.ts            # All test constants (URL, perf budgets, todo data)
     pages/
       ToDoPage.ts           # Page object for the main todo page
     components/
