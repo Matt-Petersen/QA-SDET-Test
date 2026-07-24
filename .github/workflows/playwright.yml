@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       update_visual_baseline:
-        description: 'Regenerate visual regression baselines (Chromium/Linux) instead of running the full suite'
+        description: 'Regenerate visual regression baselines (all browsers, Linux) instead of running the full suite'
         type: boolean
         default: false
 
@@ -43,9 +43,7 @@ jobs:
 
       - name: Update visual regression baselines
         if: ${{ github.event.inputs.update_visual_baseline == 'true' }}
-        env:
-          UPDATE_VISUAL_BASELINE: 'true'
-        run: npx playwright test tests/visual.spec.ts --project=chromium --update-snapshots
+        run: npx playwright test tests/visual.spec.ts --update-snapshots
 
       - name: Upload results
         uses: actions/upload-artifact@v4
