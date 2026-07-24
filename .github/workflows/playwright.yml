@@ -5,6 +5,11 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      update_visual_baseline:
+        description: 'Regenerate visual regression baselines (Chromium/Linux) instead of running the full suite'
+        type: boolean
+        default: false
 
 jobs:
   test:
@@ -33,7 +38,14 @@ jobs:
         run: npx wait-on http://127.0.0.1:7002 --timeout 30000
 
       - name: Run Playwright tests
+        if: ${{ github.event.inputs.update_visual_baseline != 'true' }}
         run: npx playwright test
+
+      - name: Update visual regression baselines
+        if: ${{ github.event.inputs.update_visual_baseline == 'true' }}
+        env:
+          UPDATE_VISUAL_BASELINE: 'true'
+        run: npx playwright test tests/visual.spec.ts --project=chromium --update-snapshots
 
       - name: Upload results
         uses: actions/upload-artifact@v4
@@ -43,4 +55,12 @@ jobs:
           path: |
             results.json
             playwright-report/
+          retention-days: 30
+
+      - name: Upload regenerated visual baselines
+        uses: actions/upload-artifact@v4
+        if: ${{ github.event.inputs.update_visual_baseline == 'true' }}
+        with:
+          name: visual-baselines-linux
+          path: tests/visual.spec.ts-snapshots/
           retention-days: 30
